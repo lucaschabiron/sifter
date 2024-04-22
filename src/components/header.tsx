@@ -15,7 +15,7 @@ export function Header() {
     </header>
   );
 }
-function NewspaperIcon(props) {
+function NewspaperIcon(props: any) {
   return (
     <svg
       {...props}

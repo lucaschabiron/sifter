@@ -111,7 +111,7 @@ export function Landing() {
   );
 }
 
-function NewspaperIcon(props) {
+function NewspaperIcon(props: any) {
   return (
     <svg
       {...props}
