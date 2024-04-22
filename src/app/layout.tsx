@@ -11,11 +11,6 @@ export const metadata: Metadata = {
     "Sifter uses AI to create personalized newsletters, sifting through content to deliver only what matters to you.",
 };
 
-export const favicon = {
-  href: "/favicon.png",
-  type: "image/png",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
