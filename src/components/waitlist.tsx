@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,14 +31,37 @@ export function Waitlist() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  const [message, setMessage] = useState<string | null>(null);
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
-    toast({
-      title: "Thank you for your interest!",
-      description: `We will keep you up to date.`,
-    });
+
+    try {
+      const response = await fetch("/api/marketing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        form.reset();
+        setMessage(result.message);
+        toast({
+          title: "Thank you for your interest!",
+          description: `We will keep you up to date.`,
+        });
+      } else {
+        setMessage(result.message);
+      }
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+    }
   }
 
   return (
@@ -67,7 +92,7 @@ export function Waitlist() {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage>{message}</FormMessage>
                     </FormItem>
                   )}
                 />
