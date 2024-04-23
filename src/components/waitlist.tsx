@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +33,16 @@ export function Waitlist() {
 
   const [message, setMessage] = useState<string | null>(null);
 
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      if (value.email) {
+        setMessage(null); // Reset the error message when the email changes
+      }
+    });
+
+    return () => subscription.unsubscribe(); // Cleanup subscription on component unmount
+  }, [form]);
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
@@ -51,10 +61,9 @@ export function Waitlist() {
 
       if (response.ok) {
         form.reset();
-        setMessage(result.message);
         toast({
           title: "Thank you for your interest!",
-          description: `We will keep you up to date.`,
+          description: result.message,
         });
       } else {
         setMessage(result.message);
