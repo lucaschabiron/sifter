@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
+import { LoadingButton } from "@/components/loadingButton";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -32,6 +33,7 @@ export function Waitlist() {
   });
 
   const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const subscription = form.watch((value) => {
@@ -47,6 +49,8 @@ export function Waitlist() {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch("/api/marketing", {
@@ -65,11 +69,14 @@ export function Waitlist() {
           title: "Thank you for your interest!",
           description: result.message,
         });
+        setLoading(false);
       } else {
         setMessage(result.message);
+        setLoading(false);
       }
     } catch (error) {
       setMessage("An error occurred. Please try again.");
+      setLoading(false);
     }
   }
 
@@ -105,9 +112,17 @@ export function Waitlist() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="bg-gray-700 hover:bg-gray-600">
-                  Submit
-                </Button>
+
+                {loading ? (
+                  <LoadingButton className="w-36" />
+                ) : (
+                  <Button
+                    type="submit"
+                    className="bg-gray-700 hover:bg-gray-600  w-36"
+                  >
+                    Submit
+                  </Button>
+                )}
               </form>
             </Form>
           </div>
