@@ -1,8 +1,7 @@
 import { supabase } from "@/lib/db/supabase";
-
+import { sendWaitlistMail } from "@/lib/mails/waitlist";
 export async function POST(req: Request) {
   const { email } = await req.json();
-
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!regex.test(email)) {
     return new Response(
@@ -38,6 +37,8 @@ export async function POST(req: Request) {
   if (error) {
     return new Response(error.message, { status: 500 });
   }
+
+  sendWaitlistMail(email);
 
   return new Response(
     JSON.stringify({ message: "E-mail added to the waitlist." }),
