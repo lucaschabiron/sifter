@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     return new Response(error.message, { status: 500 });
   }
 
-  sendWaitlistMail(email);
+  const mailError = await sendWaitlistMail(email);
 
   return new Response(
     JSON.stringify({ message: "E-mail added to the waitlist." }),

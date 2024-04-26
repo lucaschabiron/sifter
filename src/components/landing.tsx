@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Header } from "./header";
 import { Waitlist } from "./waitlist";
 import { Footer } from "./footer";
+import Image from "next/image";
 
 export function Landing() {
   return (
@@ -68,7 +68,7 @@ export function Landing() {
           <div className="container px-4 md:px-6">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <img
+                <Image
                   alt="AI Newsletter"
                   className="rounded-xl"
                   height="400"
@@ -77,7 +77,7 @@ export function Landing() {
                     aspectRatio: "500/400",
                     objectFit: "cover",
                   }}
-                  width="500"
+                  width="700"
                 />
               </div>
               <div className="space-y-4">

@@ -8,7 +8,11 @@ export const sendWaitlistMail = async (email: string) => {
     subject: "Welcome to Sifter Waitlist",
     html: waitlistHTML,
   };
-  await sendMail(mailOptions);
+  try {
+    await sendMail(mailOptions);
+  } catch (error) {
+    return error;
+  }
 };
 
 const waitlistHTML = `<!DOCTYPE html>
