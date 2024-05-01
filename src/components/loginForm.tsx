@@ -75,7 +75,7 @@ export function LoginForm({ login }: { login: (data: LoginFormData) => void }) {
         </form>
       </Form>
       <div className="flex justify-center text-sm text-neutral-700 dark:text-neutral-300">
-        <span>Don't have an account?</span>
+        <span>Don&apos;t have an account?</span>
         <a
           href="#"
           className="ml-1 text-neutral-800 dark:text-neutral-200 font-medium underline hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
