@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
@@ -9,21 +8,35 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "./ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
-export function LoginForm({ login }: { login: (data: LoginFormData) => void }) {
-  function onSubmit(data: LoginFormData) {
-    login(data);
+export function LoginForm({
+  login,
+}: {
+  login: (data: LoginFormData) => void | Promise<string>;
+}) {
+  async function onSubmit(data: LoginFormData) {
+    const error = await login(data);
+    if (error) {
+      console.error(error);
+      form.setError("password", {
+        message: error,
+      });
+    }
   }
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   return (
@@ -43,7 +56,11 @@ export function LoginForm({ login }: { login: (data: LoginFormData) => void }) {
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="your email address" {...field} />
+                    <Input
+                      placeholder="your email address"
+                      {...field}
+                      type="email"
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -59,10 +76,17 @@ export function LoginForm({ login }: { login: (data: LoginFormData) => void }) {
                   <FormControl>
                     <Input placeholder="••••••••" {...field} type="password" />
                   </FormControl>
+                  <FormMessage
+                    className={cn(
+                      "text-sm",
+                      form.formState.errors.password
+                        ? "text-red-500"
+                        : "text-gray-600"
+                    )}
+                  />
                 </FormItem>
               )}
             />
-            <FormMessage />
           </div>
 
           <button
@@ -76,12 +100,12 @@ export function LoginForm({ login }: { login: (data: LoginFormData) => void }) {
       </Form>
       <div className="flex justify-center text-sm text-neutral-700 dark:text-neutral-300">
         <span>Don&apos;t have an account?</span>
-        <a
-          href="#"
+        <Link
+          href="/signup"
           className="ml-1 text-neutral-800 dark:text-neutral-200 font-medium underline hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
         >
           Sign up
-        </a>
+        </Link>
       </div>
 
       <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
@@ -118,19 +142,5 @@ const BottomGradient = () => {
       <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-green-500 to-transparent" />
       <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
     </>
-  );
-};
-
-const LabelInputContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 w-full", className)}>
-      {children}
-    </div>
   );
 };

@@ -11,7 +11,7 @@ export async function login(formData: LoginFormData) {
 
   const { error } = await supabase.auth.signInWithPassword(formData);
   if (error) {
-    redirect("/");
+    return error.message;
   }
 
   revalidatePath("/", "layout");
