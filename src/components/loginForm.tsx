@@ -24,12 +24,19 @@ export function LoginForm({
   async function onSubmit(data: LoginFormData) {
     const error = await login(data);
     if (error) {
-      form.setError("email", { message: error });
+      console.error(error);
+      form.setError("password", {
+        message: error,
+      });
     }
   }
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   return (
@@ -49,7 +56,11 @@ export function LoginForm({
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="your email address" {...field} />
+                    <Input
+                      placeholder="your email address"
+                      {...field}
+                      type="email"
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -65,10 +76,17 @@ export function LoginForm({
                   <FormControl>
                     <Input placeholder="••••••••" {...field} type="password" />
                   </FormControl>
+                  <FormMessage
+                    className={cn(
+                      "text-sm",
+                      form.formState.errors.password
+                        ? "text-red-500"
+                        : "text-gray-600"
+                    )}
+                  />
                 </FormItem>
               )}
             />
-            <FormMessage />
           </div>
 
           <button
@@ -124,19 +142,5 @@ const BottomGradient = () => {
       <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-green-500 to-transparent" />
       <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
     </>
-  );
-};
-
-const LabelInputContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 w-full", className)}>
-      {children}
-    </div>
   );
 };
