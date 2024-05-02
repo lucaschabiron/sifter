@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "./ui/button";
-import { toast } from "./ui/use-toast";
+import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
 export function LaunchAppButton() {
   const onClick = () => {
     toast({

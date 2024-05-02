@@ -1,7 +1,9 @@
-import { supabase } from "@/lib/db/supabase";
+"use server";
+import { createClient } from "@/lib/db/server";
 import { sendWaitlistMail } from "@/lib/mails/waitlist";
 export async function POST(req: Request) {
   const { email } = await req.json();
+  const supabase = createClient();
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!regex.test(email)) {
     return new Response(
@@ -14,7 +16,6 @@ export async function POST(req: Request) {
       }
     );
   }
-
   const { data: existingEmail } = await supabase
     .from("waitlist")
     .select("email")
