@@ -22,10 +22,11 @@ export async function login(formData: LoginFormData) {
 export async function OAuthSignIn(provider: Provider) {
   const supabase = createClient();
 
+  const url = process.env.NEXT_PUBLIC_URL || "https://sifter-app.com";
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/auth/callback",
+      redirectTo: `${url}/auth/callback`,
     },
   });
 
