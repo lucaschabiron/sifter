@@ -1,4 +1,4 @@
-import { Landing } from "@/components/landing";
+import { Landing } from "@/components/marketing/landing";
 import { Viewport } from "next";
 
 export const viewport: Viewport = {
