@@ -14,7 +14,7 @@ import {
 } from "./ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { OAuthSignIn } from "@/app/(auth)/login/actions";
+import { toast } from "./ui/use-toast";
 
 export function SignupForm({
   signup,
@@ -45,6 +45,14 @@ export function SignupForm({
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
         Welcome to Sifter
       </h2>
+      <p className="text-neutral-700 dark:text-neutral-300 text-sm">
+        Sign up is only available for beta testers at the moment. If you're
+        interested in joining the beta, please{" "}
+        <Link href="/waitlist" className="font-bold underline">
+          sign up for the waitlist
+        </Link>
+        .
+      </p>
       <Form {...form}>
         <form className="my-8" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="my-4 space-y-2">
@@ -125,7 +133,7 @@ export function SignupForm({
           className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
           type="submit"
           onClick={() => {
-            OAuthSignIn("github");
+            toast({ title: "Not available during beta" });
           }}
         >
           <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
@@ -138,7 +146,7 @@ export function SignupForm({
           className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
           type="submit"
           onClick={() => {
-            OAuthSignIn("google");
+            toast({ title: "Not available during beta" });
           }}
         >
           <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />

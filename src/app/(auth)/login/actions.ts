@@ -20,6 +20,8 @@ export async function login(formData: LoginFormData) {
 }
 
 export async function OAuthSignIn(provider: Provider) {
+  return;
+
   const supabase = createClient();
 
   const url = process.env.NEXT_PUBLIC_URL || "https://sifter-app.com";
@@ -30,7 +32,7 @@ export async function OAuthSignIn(provider: Provider) {
     },
   });
 
-  if (data.url) {
-    redirect(data.url);
-  }
+  // if (data.url) {
+  //   redirect(data.url);
+  // }
 }
