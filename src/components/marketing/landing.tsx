@@ -4,6 +4,7 @@ import { Header } from "./header";
 import { Waitlist } from "./waitlist";
 import { Footer } from "./footer";
 import Image from "next/image";
+import newsletter from "./newsletter.jpg";
 
 export function Landing() {
   return (
@@ -71,13 +72,11 @@ export function Landing() {
                 <Image
                   alt="AI Newsletter"
                   className="rounded-xl"
-                  height="400"
-                  src="/newsletter.jpg"
+                  src={newsletter}
                   style={{
                     aspectRatio: "500/400",
                     objectFit: "cover",
                   }}
-                  width="700"
                 />
               </div>
               <div className="space-y-4">
@@ -111,5 +110,3 @@ export function Landing() {
     </div>
   );
 }
-
-

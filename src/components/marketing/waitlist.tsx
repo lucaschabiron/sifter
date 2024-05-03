@@ -49,9 +49,9 @@ export function Waitlist() {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
-    
+
     setLoading(true);
-    
+
     try {
       const response = await fetch("/api/marketing", {
         method: "POST",
@@ -61,6 +61,7 @@ export function Waitlist() {
         body: JSON.stringify(data),
       });
 
+      console.log("here");
       const result = await response.json();
 
       if (response.ok) {
