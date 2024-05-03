@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Header } from "./header";
-import { Waitlist } from "../waitlist";
+import { Waitlist } from "./waitlist";
 import { Footer } from "./footer";
 import Image from "next/image";
 import newsletter from "./newsletter.jpg";
