@@ -46,7 +46,7 @@ export function SignupForm({
         Welcome to Sifter
       </h2>
       <p className="text-neutral-700 dark:text-neutral-300 text-sm">
-        Sign up is only available for beta testers at the moment. If you're
+        Sign up is only available for beta testers at the moment. If you&apos;re
         interested in joining the beta, please{" "}
         <Link href="/waitlist" className="font-bold underline">
           sign up for the waitlist
