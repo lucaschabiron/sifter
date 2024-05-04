@@ -1,3 +1,5 @@
 export default function ErrorPage() {
-  return <p>Sorry, something went wrong</p>;
+  return (
+    <p className="text-gray-200 text-center">Sorry, something went wrong</p>
+  );
 }

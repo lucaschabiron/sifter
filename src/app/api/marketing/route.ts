@@ -22,10 +22,6 @@ export async function POST(req: Request) {
     .select("email")
     .eq("email", email);
 
-  console.log("email", email);
-
-  console.log("existingEmail", existingEmail);
-
   if (existingEmail?.length) {
     return new Response(
       JSON.stringify({ message: "E-mail already on the waitlist." }),
@@ -40,7 +36,6 @@ export async function POST(req: Request) {
 
   const { error } = await supabase.from("waitlist").insert({ email: email });
 
-  console.log("error", error);
   if (error) {
     return new Response(JSON.stringify({ message: error.message }), {
       headers: {

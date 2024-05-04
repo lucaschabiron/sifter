@@ -24,7 +24,6 @@ export function SignupForm({
   async function onSubmit(data: SignupFormData) {
     const error = await signup(data);
     if (error) {
-      console.error(error);
       form.setError("confirmPassword", {
         message: error,
       });
