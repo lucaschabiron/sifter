@@ -21,13 +21,13 @@ export async function GET(request: NextRequest) {
       type,
       token_hash,
     });
+
     if (!error) {
       redirectTo.searchParams.delete("next");
       return NextResponse.redirect(redirectTo);
     }
   }
 
-  // return the user to an error page with some instructions
   redirectTo.pathname = "/auth/confirm/error";
   return NextResponse.redirect(redirectTo);
 }

@@ -25,7 +25,6 @@ export function LoginForm({
   async function onSubmit(data: LoginFormData) {
     const error = await login(data);
     if (error) {
-      console.error(error);
       form.setError("password", {
         message: error,
       });
