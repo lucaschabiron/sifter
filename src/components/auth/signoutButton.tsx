@@ -1,7 +1,7 @@
 "use client";
 
-import { LoadingButton } from "./loadingButton";
-import { Button } from "./ui/button";
+import { LoadingButton } from "../loadingButton";
+import { Button } from "../ui/button";
 import { useState } from "react";
 
 export function SignoutButton() {

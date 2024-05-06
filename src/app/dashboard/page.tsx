@@ -1,5 +1,5 @@
 import { CurrentSessionHelper } from "@/components/currentSessionHelper";
-import { SignoutButton } from "@/components/signoutButton";
+import { SignoutButton } from "@/components/auth/signoutButton";
 import { createClient } from "@/lib/db/server";
 import { redirect } from "next/navigation";
 
