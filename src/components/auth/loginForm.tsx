@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Input } from "@/components/ui/input";
+import { AuthInput as Input } from "@/components/auth/authInput";
 import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { loginSchema, LoginFormData } from "@/lib/forms/auth";

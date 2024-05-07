@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Input } from "@/components/ui/input";
+import { AuthInput as Input } from "@/components/auth/authInput";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { signupSchema, SignupFormData } from "@/lib/forms/auth";
 import { useForm } from "react-hook-form";
