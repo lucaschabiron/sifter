@@ -103,7 +103,7 @@ export function Waitlist() {
                       <FormControl>
                         <Input
                           placeholder="Enter your email address"
-                          className="text-base"
+                          className="text-gray-800 border-0 bg-white"
                           {...field}
                         />
                       </FormControl>
@@ -117,7 +117,7 @@ export function Waitlist() {
                 ) : (
                   <Button
                     type="submit"
-                    className="bg-gray-700 hover:bg-gray-600  w-36"
+                    className="bg-gray-700 hover:bg-gray-600  w-36 text-white"
                   >
                     Submit
                   </Button>
