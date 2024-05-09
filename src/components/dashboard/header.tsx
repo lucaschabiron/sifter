@@ -2,14 +2,6 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 
 import Image from "next/image";
 import { PanelLeft, Search } from "lucide-react";
@@ -83,7 +75,7 @@ export default function DashboardHeader() {
           </nav>
         </SheetContent>
       </Sheet>
-      <div className="relative ml-auto flex-1 md:grow-0">
+      <div className="ml-auto">
         <AccountDropdown />
       </div>
     </header>
