@@ -2,8 +2,6 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-import Image from "next/image";
 import { PanelLeft, Search } from "lucide-react";
 import {
   Home,
