@@ -36,7 +36,7 @@ export default async function DashboardLayout({
         >
           <div className="flex min-h-screen w-full flex-col bg-muted">
             <Sidebar />
-            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+            <div className="flex flex-col sm:py-4 sm:pl-14">
               <DashboardHeader />
               {children}
             </div>
