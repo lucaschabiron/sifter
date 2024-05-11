@@ -14,23 +14,17 @@ import { use, useEffect, useState } from "react";
 import { User as UserType } from "@supabase/supabase-js";
 import Link from "next/link";
 
-export function AccountDropdown() {
-  const [user, setUser]: [UserType | undefined, any] = useState();
-
+export async function AccountDropdown() {
   const getUserData = async () => {
     const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
     if (error) {
       console.error(error);
     }
-    console.log(data);
-    setUser(data.user);
-    console.log("user", user);
+    return data.user;
   };
 
-  useEffect(() => {
-    getUserData();
-  });
+  const user = await getUserData();
 
   return (
     <DropdownMenu>
@@ -44,7 +38,7 @@ export function AccountDropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{user?.email ?? <></>}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href="/settings">
           <DropdownMenuItem>Settings</DropdownMenuItem>
