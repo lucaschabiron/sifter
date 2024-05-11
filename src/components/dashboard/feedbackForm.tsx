@@ -42,7 +42,6 @@ export function FeedbackForm() {
           name="feedback"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">Feedback</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="What feature would you like to see next? How can we improve?"

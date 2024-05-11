@@ -1,4 +1,5 @@
-import { FeedbackForm } from "@/components/dashboard/feddbackForm";
+import { FeedbackForm } from "@/components/dashboard/feedbackForm";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function BetaPage() {
   const releases = [
@@ -12,9 +13,14 @@ export default async function BetaPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <div className="bg-background h-fit p-4 rounded-lg md:w-1/3 lg:w-1/4 md:fixed md:right-4">
-        <FeedbackForm />
-      </div>
+      <Card className="md:w-1/3 lg:w-1/4 md:fixed md:right-4">
+        <CardHeader>
+          <CardTitle>Feedback</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <FeedbackForm />
+        </CardContent>
+      </Card>
       <main className="items-start sm:p-4 gap-2 md:gap-4 md:w-1/2 lg:w-2/3 ">
         <h1 className="text-2xl font-semibold">Beta</h1>
         <p>You are part of the beta program. Thank you for your support!</p>
