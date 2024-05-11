@@ -7,8 +7,9 @@ import { ThemeSwitch } from "../themeSwitch";
 import { DashboardBreadcrumb } from "./dashboardBreadcrumb";
 import { HeaderLink } from "./headerLink";
 import { usePathname } from "next/navigation";
+import { User as UserType } from "@supabase/supabase-js";
 
-export default function DashboardHeader() {
+export default function DashboardHeader({ user }: { user: UserType | null }) {
   const pathname = usePathname();
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -56,7 +57,7 @@ export default function DashboardHeader() {
       <DashboardBreadcrumb />
 
       <div className="ml-auto">
-        <AccountDropdown />
+        <AccountDropdown user={user} />
       </div>
     </header>
   );

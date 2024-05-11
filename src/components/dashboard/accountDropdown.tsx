@@ -9,21 +9,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
-import { createClient } from "@/lib/db/client";
 import Link from "next/link";
+import { User as UserType } from "@supabase/supabase-js";
 
-export async function AccountDropdown() {
-  const getUserData = async () => {
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-      console.error(error);
-    }
-    return data.user;
-  };
-
-  const user = await getUserData();
-
+export function AccountDropdown({ user }: { user: UserType | null }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

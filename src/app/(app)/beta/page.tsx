@@ -13,7 +13,7 @@ export default async function BetaPage() {
 
   return (
     <div className="flex flex-col">
-      <Card className="md:w-1/3 lg:w-1/4 md:fixed md:right-4">
+      <Card className="md:w-1/3 lg:w-1/4 md:fixed md:right-4 m-4">
         <CardHeader>
           <CardTitle>Feedback</CardTitle>
         </CardHeader>
