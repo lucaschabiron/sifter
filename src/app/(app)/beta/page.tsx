@@ -1,7 +1,4 @@
 import { FeedbackForm } from "@/components/dashboard/feddbackForm";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { date } from "zod";
 
 export default async function BetaPage() {
   const releases = [

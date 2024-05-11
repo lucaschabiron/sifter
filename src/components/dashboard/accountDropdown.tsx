@@ -10,10 +10,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
 import { createClient } from "@/lib/db/client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+import { User as UserType } from "@supabase/supabase-js";
+import Link from "next/link";
 
 export function AccountDropdown() {
-  const [user, setUser] = useState(null);
+  const [user, setUser]: [UserType | undefined, any] = useState();
 
   const getUserData = async () => {
     const supabase = createClient();
@@ -21,12 +23,14 @@ export function AccountDropdown() {
     if (error) {
       console.error(error);
     }
-    return data;
+    console.log(data);
+    setUser(data.user);
+    console.log("user", user);
   };
 
   useEffect(() => {
     getUserData();
-  }, []);
+  });
 
   return (
     <DropdownMenu>
@@ -40,16 +44,18 @@ export function AccountDropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user?.email ?? <></>}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <Link href="/settings">
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+        </Link>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <form action="/auth/signout" method="post">
-            <button type="submit">Sign out</button>
-          </form>
-        </DropdownMenuItem>
+        <form action="/auth/signout" method="post">
+          <button type="submit" className="w-full">
+            <DropdownMenuItem>Sign out</DropdownMenuItem>
+          </button>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );
