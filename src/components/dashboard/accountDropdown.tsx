@@ -10,8 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
 import { createClient } from "@/lib/db/client";
-import { use, useEffect, useState } from "react";
-import { User as UserType } from "@supabase/supabase-js";
 import Link from "next/link";
 
 export async function AccountDropdown() {

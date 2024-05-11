@@ -11,10 +11,10 @@ export default async function DashboardPage() {
   const nextIssueString = nextIssueDate.toISOString();
   return (
     <>
-      <h1 className="hidden text-2xl font-semibold p-4 sm:px-6 md:block">
+      <h1 className="hidden text-2xl font-semibold p-4 md:px-6 md:block">
         Dashboard
       </h1>
-      <main className="grid grid-cols-2 md:grid-cols-3 grid-rows-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+      <main className="grid grid-cols-2 md:grid-cols-3 grid-rows-1 items-start gap-4 p-4 md:px-6 md:py-0 md:gap-8">
         <Card className="col-span-2 md:col-span-1 shadow-sm">
           <CardHeader>
             <CardTitle>Latest Issue</CardTitle>
