@@ -20,7 +20,7 @@ export function Landing() {
                   Sift Through the Noise, Stay in the Know.
                 </h1>
                 <Button
-                  className="w-full sm:w-auto bg-gray-300"
+                  className="w-full sm:w-auto bg-gray-300 hover:bg-gray-200 text-black border"
                   variant="outline"
                   onClick={() =>
                     document

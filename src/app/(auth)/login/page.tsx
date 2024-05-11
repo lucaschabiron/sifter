@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/loginForm";
+import { LoginForm } from "@/components/auth/loginForm";
 import { login } from "./actions";
 
 import { createClient } from "@/lib/db/server";

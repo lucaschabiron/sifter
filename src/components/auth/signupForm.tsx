@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Input } from "@/components/ui/input";
+import { AuthInput as Input } from "@/components/auth/authInput";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { signupSchema, SignupFormData } from "@/lib/forms/auth";
 import { useForm } from "react-hook-form";
@@ -11,10 +11,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { toast } from "./ui/use-toast";
+import { toast } from "../ui/use-toast";
 
 export function SignupForm({
   signup,
@@ -132,7 +132,7 @@ export function SignupForm({
           className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
           type="submit"
           onClick={() => {
-            toast({ title: "Not available during beta" });
+            toast({ description: "Not available during beta" });
           }}
         >
           <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
@@ -145,7 +145,7 @@ export function SignupForm({
           className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
           type="submit"
           onClick={() => {
-            toast({ title: "Not available during beta" });
+            toast({ description: "Not available during beta" });
           }}
         >
           <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
