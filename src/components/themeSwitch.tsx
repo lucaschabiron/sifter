@@ -12,13 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ThemeSwitch() {
+export const ThemeSwitch = React.forwardRef<HTMLButtonElement>((props, ref) => {
   const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          ref={ref}
           className="rounded-lg text-muted-foreground hover:bg-transparent bg-transparent hover:text-foreground"
           size="icon"
         >
@@ -40,4 +41,6 @@ export function ThemeSwitch() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+});
+
+ThemeSwitch.displayName = "ThemeSwitch";

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import { usePathname } from "next/navigation";
+import React from "react";
 
 type BreadcrumbItem = {
   name: string;
@@ -38,16 +39,16 @@ export function DashboardBreadcrumb() {
       <BreadcrumbList>
         {breadcrumb.map((item, index) => {
           return (
-            <>
-              {index !== 0 && <BreadcrumbSeparator key={index} />}
-              <BreadcrumbItem key={index}>
+            <React.Fragment key={index}>
+              {index !== 0 && <BreadcrumbSeparator />}
+              <BreadcrumbItem>
                 {item.href ? (
                   <BreadcrumbLink href={item.href}>{item.name}</BreadcrumbLink>
                 ) : (
                   <BreadcrumbPage>{item.name}</BreadcrumbPage>
                 )}
               </BreadcrumbItem>
-            </>
+            </React.Fragment>
           );
         })}
       </BreadcrumbList>
