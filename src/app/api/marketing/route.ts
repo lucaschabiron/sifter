@@ -2,7 +2,9 @@
 import { serviceRoleClient } from "@/lib/db/service-role";
 import { sendWaitlistMail } from "@/lib/mails/waitlist";
 export async function POST(req: Request) {
-  const { email } = await req.json();
+  let { email } = await req.json();
+  email = email.toLowerCase();
+
   const supabase = serviceRoleClient();
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!regex.test(email)) {
