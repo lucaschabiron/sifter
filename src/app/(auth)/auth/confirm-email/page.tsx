@@ -1,3 +1,4 @@
+"use server";
 import { serviceRoleClient } from "@/lib/db/service-role";
 import { redirect } from "next/navigation";
 
@@ -13,17 +14,18 @@ export default async function ConfirmEmailPage({
   const { data, error } = await supabase
     .from("profiles")
     .select()
-    .eq("email", searchParams.email);
+    .eq("email", searchParams.email)
+    .single();
 
   if (error) {
     redirect("/login");
   }
 
-  if (data.length === 0) {
+  if (!data) {
     redirect("/login");
   }
 
-  if (data[0].confirmed_at) {
+  if (data.confirmed_at) {
     redirect("/login");
   }
 

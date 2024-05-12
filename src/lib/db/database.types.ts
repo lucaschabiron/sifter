@@ -9,18 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          confirmed_at: string | null;
+          email: string | null;
+          id: string;
+          updated_at: string | null;
+        };
+        Insert: {
+          confirmed_at?: string | null;
+          email?: string | null;
+          id: string;
+          updated_at?: string | null;
+        };
+        Update: {
+          confirmed_at?: string | null;
+          email?: string | null;
+          id?: string;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       waitlist: {
         Row: {
+          beta_access: boolean;
           created_at: string;
           email: string;
           id: number;
         };
         Insert: {
+          beta_access?: boolean;
           created_at?: string;
           email: string;
           id?: number;
         };
         Update: {
+          beta_access?: boolean;
           created_at?: string;
           email?: string;
           id?: number;

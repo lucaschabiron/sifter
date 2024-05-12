@@ -8,9 +8,12 @@ import { LoginFormData } from "@/lib/forms/auth";
 import { Provider } from "@supabase/supabase-js";
 
 export async function login(formData: LoginFormData) {
+  const email = formData.email.trim().toLowerCase();
   const supabase = createClient();
-
-  const { error } = await supabase.auth.signInWithPassword(formData);
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: formData.password,
+  });
   if (error) {
     return error.message;
   }

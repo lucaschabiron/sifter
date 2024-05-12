@@ -1,15 +1,15 @@
 "use server";
 
 import { redirect } from "next/navigation";
-
 import { serviceRoleClient } from "@/lib/db/service-role";
 import { SignupFormData } from "@/lib/forms/auth";
 
 export async function signup(formData: SignupFormData) {
+  const email = formData.email.trim().toLowerCase();
   const supabase = serviceRoleClient();
 
   const { data: alreadyRegisteredData, error: alreadyRegisteredError } =
-    await supabase.from("profiles").select().eq("email", formData.email);
+    await supabase.from("profiles").select().eq("email", email);
 
   if (alreadyRegisteredError) {
     return alreadyRegisteredError.message;
@@ -22,18 +22,19 @@ export async function signup(formData: SignupFormData) {
   const { error: hasBetaError, data: hasBetaAccess } = await supabase
     .from("waitlist")
     .select("beta_access")
-    .eq("email", formData.email);
+    .eq("email", email)
+    .single();
 
   if (hasBetaError) {
     return hasBetaError.message;
   }
 
-  if (!hasBetaAccess[0]!.beta_access) {
+  if (!hasBetaAccess?.beta_access) {
     return "You need access to the beta to sign up.";
   }
 
   const { data, error } = await supabase.auth.signUp({
-    email: formData.email,
+    email: email,
     password: formData.password,
   });
 
@@ -41,5 +42,5 @@ export async function signup(formData: SignupFormData) {
     return error.message;
   }
 
-  redirect("/auth/confirm-email?email=" + formData.email);
+  redirect(`/auth/confirm-email?email=${encodeURIComponent(email)}`);
 }
