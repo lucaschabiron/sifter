@@ -15,13 +15,17 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { toast } from "../ui/use-toast";
+import { cn } from "@/lib/utils";
 
 export function SignupForm({
   signup,
 }: {
   signup: (data: SignupFormData) => void | Promise<string>;
 }) {
+  const [loadingSignup, setLoadingSignup] = React.useState(false);
+
   async function onSubmit(data: SignupFormData) {
+    setLoadingSignup(true);
     const error = await signup(data);
     if (error) {
       form.setError("confirmPassword", {
@@ -107,7 +111,10 @@ export function SignupForm({
           </div>
 
           <button
-            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+            className={cn(
+              "bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]",
+              loadingSignup && "opacity-50 cursor-not-allowed"
+            )}
             type="submit"
           >
             Sign up &rarr;
