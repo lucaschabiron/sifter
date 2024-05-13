@@ -5,6 +5,7 @@ import { Waitlist } from "./waitlist";
 import { Footer } from "./footer";
 import Image from "next/image";
 import newsletter from "./newsletter.jpg";
+import reading from "./reading.jpg";
 
 export function Landing() {
   return (
@@ -12,7 +13,14 @@ export function Landing() {
       <Header />
       <div className="flex-1 "></div>
       <main className="flex-1">
-        <section className="w-full bg-[url(/reading.jpg)] bg-cover bg-bottom">
+        <div className="absolute -z-10 h-[70em]">
+          <Image
+            src={reading}
+            alt="background"
+            className="object-cover h-full"
+          />
+        </div>
+        <section className={`w-full bg-opacity-0`}>
           <div className="py-60 px-[5%] bg-gradient-to-b from-black/70 via-black/70 to-black bg-cover w-full h-full">
             <div className="container px-4 md:px-6 text-center">
               <div className="max-w-3xl mx-auto space-y-6">
