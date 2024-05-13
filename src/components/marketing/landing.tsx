@@ -13,7 +13,7 @@ export function Landing() {
       <Header />
       <div className="flex-1 "></div>
       <main className="flex-1">
-        <div className="absolute -z-10 h-[70em]">
+        <div className="absolute -z-10 h-[90em] sm:h-[70em]">
           <Image
             src={reading}
             alt="background"
