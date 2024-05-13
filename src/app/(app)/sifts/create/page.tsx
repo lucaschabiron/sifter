@@ -1,3 +1,3 @@
 export default function CreateSiftPage() {
-  return <div>CreateSiftPage</div>;
+  return <div>Create Sift</div>;
 }
