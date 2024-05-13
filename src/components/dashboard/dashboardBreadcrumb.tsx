@@ -27,7 +27,7 @@ export function DashboardBreadcrumb() {
   } else if (pathname === "/sifts/create") {
     breadcrumb = [
       { name: "Dashboard", href: "/dashboard" },
-      { name: "Sifts", href: "/dashboard/sifts" },
+      { name: "Sifts", href: "/sifts" },
       { name: "Create Sift" },
     ];
   } else if (pathname === "/beta") {
