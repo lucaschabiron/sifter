@@ -10,7 +10,7 @@ export function HeaderSkeleton() {
         <span className="sr-only">Toggle Menu</span>
       </Button>
 
-      <Skeleton className="w-20 h-6 sm:bg-border" />
+      <Skeleton className="w-40 h-6 sm:bg-border" />
 
       <div className="ml-auto">
         <Button

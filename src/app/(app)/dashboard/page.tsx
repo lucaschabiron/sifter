@@ -24,6 +24,8 @@ export default async function DashboardPage() {
               <div className="flex justify-center aspect-auto">
                 <Image
                   src={placeholder}
+                  priority
+                  placeholder="blur"
                   alt="Your latest issue"
                   className="rounded-lg"
                 />
