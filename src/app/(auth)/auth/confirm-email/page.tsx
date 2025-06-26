@@ -5,16 +5,20 @@ import { redirect } from "next/navigation";
 export default async function ConfirmEmailPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  if (!searchParams.email) {
+  const params = await searchParams;
+  if (!params.email) {
     redirect("/login");
   }
+
+  const email = Array.isArray(params.email) ? params.email[0] : params.email;
+
   const supabase = serviceRoleClient();
   const { data, error } = await supabase
     .from("profiles")
     .select()
-    .eq("email", searchParams.email)
+    .eq("email", email)
     .single();
 
   if (error) {
@@ -33,7 +37,7 @@ export default async function ConfirmEmailPage({
     <div className="flex flex-col items-center text-center justify-center h-screen space-y-4 text-gray-200">
       <h1 className="text-4xl font-bold">Confirm your email address</h1>
       <p className="text-lg">
-        We&apos;ve sent an email to <strong>{searchParams.email}</strong>.<br />
+        We&apos;ve sent an email to <strong>{email}</strong>.<br />
         If you don&apos;t see it, check your spam folder.
       </p>
     </div>
