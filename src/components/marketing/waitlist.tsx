@@ -33,15 +33,13 @@ export function Waitlist() {
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      if (value.email) {
-        setMessage(null); // Reset the error message when the email changes
-      }
-    });
-
-    return () => subscription.unsubscribe(); // Cleanup subscription on component unmount
-  }, [form]);
+  // Clear message when user starts typing
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (message) {
+      setMessage(null);
+    }
+    return e;
+  };
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (document.activeElement instanceof HTMLElement) {
@@ -103,9 +101,16 @@ export function Waitlist() {
                           placeholder="Enter your email address"
                           className="text-gray-800 border-0 bg-white"
                           {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleInputChange(e);
+                          }}
                         />
                       </FormControl>
-                      <FormMessage>{message}</FormMessage>
+                      <FormMessage />
+                      {message && (
+                        <p className="text-sm text-red-400 mt-1">{message}</p>
+                      )}
                     </FormItem>
                   )}
                 />
