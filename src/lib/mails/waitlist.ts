@@ -3,7 +3,7 @@ import { sendMail } from "$lib/mailer";
 
 export const sendWaitlistMail = async (email: string) => {
   const mailOptions: MailOptions = {
-    from: 'Sifter "<noreply@sifter-app.com>"',
+    from: 'Sifter <noreply@sifter-app.com>',
     to: email,
     subject: "Welcome to Sifter Waitlist",
     html: waitlistHTML,

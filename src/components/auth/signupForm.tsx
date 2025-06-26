@@ -95,7 +95,7 @@ export function SignupForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="dark:text-gray-200 text-gray-800">
-                    Password
+                    Confirm Password
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="••••••••" {...field} type="password" />
