@@ -33,7 +33,7 @@ export async function signup(formData: SignupFormData) {
     return "You need access to the beta to sign up.";
   }
 
-  const { data, error } = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email: email,
     password: formData.password,
   });

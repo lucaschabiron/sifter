@@ -10,10 +10,8 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -73,7 +71,7 @@ export function Waitlist() {
         setMessage(result.message);
         setLoading(false);
       }
-    } catch (error) {
+    } catch {
       setMessage("An error occurred. Please try again.");
       setLoading(false);
     }
