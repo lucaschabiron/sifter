@@ -23,14 +23,15 @@ export async function signup(formData: SignupFormData) {
     .from("waitlist")
     .select("beta_access")
     .eq("email", email)
-    .single();
+    .maybeSingle();
 
   if (hasBetaError) {
     return hasBetaError.message;
   }
 
-  if (!hasBetaAccess?.beta_access) {
-    return "You need access to the beta to sign up.";
+  // If user is not in waitlist or doesn't have beta access
+  if (!hasBetaAccess || !hasBetaAccess.beta_access) {
+    return "You need to be on the waitlist with beta access to sign up.";
   }
 
   const { error } = await supabase.auth.signUp({

@@ -40,24 +40,16 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   // Redirect authenticated users away from auth pages
-  if (user && request.nextUrl.pathname === "/login") {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-  if (user && request.nextUrl.pathname === "/signup") {
+  if (
+    user &&
+    (request.nextUrl.pathname === "/login" ||
+      request.nextUrl.pathname === "/signup")
+  ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Protect authenticated routes
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-  if (!user && request.nextUrl.pathname.startsWith("/settings")) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-  if (!user && request.nextUrl.pathname.startsWith("/sifts")) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-  if (!user && request.nextUrl.pathname.startsWith("/beta")) {
+  // Protect authenticated routes - since matcher already filters, we can simplify
+  if (!user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

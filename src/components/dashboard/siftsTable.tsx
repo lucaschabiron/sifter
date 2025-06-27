@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -15,77 +17,96 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getUserSifts, type Sift } from "@/lib/db/sifts";
+import { useEffect, useState } from "react";
 
 export function SiftsTable() {
-  const sifts = [
-    {
-      id: 1,
-      name: "AI sift",
-      status: "active",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-    {
-      id: 2,
-      name: "AI ML FULL REACT STACK sift",
-      status: "active",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-    {
-      id: 3,
-      name: "AI sift",
-      status: "active",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-    {
-      id: 4,
-      name: "AI sift",
-      status: "active",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-    {
-      id: 5,
-      name: "AI sift",
-      status: "active",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-    {
-      id: 6,
-      name: "AI sift",
-      status: "draft",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-    {
-      id: 7,
-      name: "AI sift",
-      status: "active",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-    {
-      id: 8,
-      name: "AI sift",
-      status: "inactive",
-      nextIssue: "Wednesday 9AM",
-      totalIssues: 25,
-      createdAt: "2023-07-12 10:42 AM",
-    },
-  ];
+  const [sifts, setSifts] = useState<Sift[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const numberOfSifts = 32;
-  const siftsPerPage = 8;
+  useEffect(() => {
+    async function fetchSifts() {
+      try {
+        const userSifts = await getUserSifts();
+        setSifts(userSifts);
+      } catch (error) {
+        console.error('Error fetching sifts:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchSifts();
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getNextIssueDate = (frequency: string) => {
+    const now = new Date();
+    const nextIssue = new Date(now);
+    
+    switch (frequency) {
+      case 'daily':
+        nextIssue.setDate(now.getDate() + 1);
+        break;
+      case 'weekly':
+        nextIssue.setDate(now.getDate() + 7);
+        break;
+      case 'monthly':
+        nextIssue.setMonth(now.getMonth() + 1);
+        break;
+    }
+    
+    return nextIssue.toLocaleDateString('en-US', {
+      weekday: 'long',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  if (loading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Your Sifts</CardTitle>
+          <CardDescription>
+            Loading your sifts...
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-32">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (sifts.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Your Sifts</CardTitle>
+          <CardDescription>
+            You haven't created any sifts yet.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-32">
+            <p className="text-muted-foreground">No sifts found. Create your first sift to get started!</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -99,40 +120,30 @@ export function SiftsTable() {
         <Table>
           <TableHeader>
             <TableRow className="">
-              <TableHead>Name</TableHead>
-              <TableHead>Status</TableHead>
-
+              <TableHead>Title</TableHead>
+              <TableHead>Topic</TableHead>
+              <TableHead className="hidden sm:table-cell">Frequency</TableHead>
               <TableHead className="hidden sm:table-cell">Next Issue</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Total Issues
-              </TableHead>
               <TableHead className="hidden md:table-cell">Created at</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {sifts.map((sift) => (
               <TableRow key={sift.id} className="h-16">
-                <TableCell className="font-medium">{sift.name}</TableCell>
+                <TableCell className="font-medium">{sift.title}</TableCell>
                 <TableCell>
-                  <Badge
-                    variant={sift.status === "active" ? "default" : "outline"}
-                    className={
-                      sift.status === "active"
-                        ? "bg-green-500 hover:bg-green-600"
-                        : ""
-                    }
-                  >
-                    {sift.status === "active" ? "Active" : "Inactive"}
+                  <Badge variant="outline" className="capitalize">
+                    {sift.topic}
                   </Badge>
                 </TableCell>
+                <TableCell className="hidden sm:table-cell capitalize">
+                  {sift.frequency}
+                </TableCell>
                 <TableCell className="hidden sm:table-cell">
-                  {sift.nextIssue}
+                  {getNextIssueDate(sift.frequency)}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  {sift.totalIssues}
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {sift.createdAt}
+                  {formatDate(sift.created_at)}
                 </TableCell>
               </TableRow>
             ))}
@@ -141,11 +152,7 @@ export function SiftsTable() {
       </CardContent>
       <CardFooter className="">
         <div className="text-xs text-muted-foreground">
-          Showing{" "}
-          <strong>
-            {sifts[0].id}-{sifts[siftsPerPage - 1].id}
-          </strong>{" "}
-          of <strong>{numberOfSifts}</strong> products
+          Showing <strong>{sifts.length}</strong> sift{sifts.length !== 1 ? 's' : ''}
         </div>
       </CardFooter>
     </Card>

@@ -12,7 +12,9 @@ export function Footer() {
             Contact
           </Link>
         </nav>
-        <p className="text-sm">© 2024 sifter. All rights reserved.</p>
+        <p className="text-sm">
+          © {new Date().getFullYear()} sifter. All rights reserved.
+        </p>
       </div>
     </footer>
   );
