@@ -38,6 +38,42 @@ export type Database = {
           }
         ];
       };
+      sifts: {
+        Row: {
+          id: number;
+          user_id: string;
+          title: string;
+          topic: string;
+          usual_sources: string;
+          frequency: 'daily' | 'weekly' | 'monthly';
+          content_preference: 'summaries' | 'detailed' | 'mixed';
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: number;
+          user_id: string;
+          title: string;
+          topic: string;
+          usual_sources?: string;
+          frequency: 'daily' | 'weekly' | 'monthly';
+          content_preference: 'summaries' | 'detailed' | 'mixed';
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: number;
+          user_id?: string;
+          title?: string;
+          topic?: string;
+          usual_sources?: string;
+          frequency?: 'daily' | 'weekly' | 'monthly';
+          content_preference?: 'summaries' | 'detailed' | 'mixed';
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       waitlist: {
         Row: {
           beta_access: boolean;
