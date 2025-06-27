@@ -30,7 +30,7 @@ export function SiftsTable() {
         const userSifts = await getUserSifts();
         setSifts(userSifts);
       } catch (error) {
-        console.error('Error fetching sifts:', error);
+        console.error("Error fetching sifts:", error);
       } finally {
         setLoading(false);
       }
@@ -40,35 +40,35 @@ export function SiftsTable() {
   }, []);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getNextIssueDate = (frequency: string) => {
     const now = new Date();
     const nextIssue = new Date(now);
-    
+
     switch (frequency) {
-      case 'daily':
+      case "daily":
         nextIssue.setDate(now.getDate() + 1);
         break;
-      case 'weekly':
+      case "weekly":
         nextIssue.setDate(now.getDate() + 7);
         break;
-      case 'monthly':
+      case "monthly":
         nextIssue.setMonth(now.getMonth() + 1);
         break;
     }
-    
-    return nextIssue.toLocaleDateString('en-US', {
-      weekday: 'long',
-      hour: '2-digit',
-      minute: '2-digit'
+
+    return nextIssue.toLocaleDateString("en-US", {
+      weekday: "long",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -77,9 +77,7 @@ export function SiftsTable() {
       <Card>
         <CardHeader>
           <CardTitle>Your Sifts</CardTitle>
-          <CardDescription>
-            Loading your sifts...
-          </CardDescription>
+          <CardDescription>Loading your sifts...</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-32">
@@ -96,12 +94,14 @@ export function SiftsTable() {
         <CardHeader>
           <CardTitle>Your Sifts</CardTitle>
           <CardDescription>
-            You haven't created any sifts yet.
+            You haven&apos;t created any sifts yet.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-32">
-            <p className="text-muted-foreground">No sifts found. Create your first sift to get started!</p>
+            <p className="text-muted-foreground">
+              No sifts found. Create your first sift to get started!
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -152,7 +152,8 @@ export function SiftsTable() {
       </CardContent>
       <CardFooter className="">
         <div className="text-xs text-muted-foreground">
-          Showing <strong>{sifts.length}</strong> sift{sifts.length !== 1 ? 's' : ''}
+          Showing <strong>{sifts.length}</strong> sift
+          {sifts.length !== 1 ? "s" : ""}
         </div>
       </CardFooter>
     </Card>
