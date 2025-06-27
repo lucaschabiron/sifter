@@ -15,7 +15,5 @@ export const config = {
     "/settings/:path*",
     "/sifts/:path*",
     "/beta/:path*",
-    "/login",
-    "/signup",
   ],
 };

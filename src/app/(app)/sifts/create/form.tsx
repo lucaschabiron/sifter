@@ -110,7 +110,10 @@ export function CreateSiftForm() {
                 <FormItem>
                   <FormLabel>Frequency</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Weekly" />
                       </SelectTrigger>
@@ -132,7 +135,10 @@ export function CreateSiftForm() {
                 <FormItem>
                   <FormLabel>Content Preference</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Summaries" />
                       </SelectTrigger>
