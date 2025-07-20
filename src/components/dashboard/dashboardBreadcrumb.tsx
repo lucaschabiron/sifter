@@ -27,8 +27,20 @@ export function DashboardBreadcrumb() {
   } else if (pathname === "/sifts/create") {
     breadcrumb = [
       { name: "Dashboard", href: "/dashboard" },
-      { name: "Sifts", href: "/dashboard/sifts" },
+      { name: "Sifts", href: "/sifts" },
       { name: "Create Sift" },
+    ];
+  } else if (pathname.startsWith("/sifts/") && pathname.endsWith("/edit")) {
+    breadcrumb = [
+      { name: "Dashboard", href: "/dashboard" },
+      { name: "Sifts", href: "/sifts" },
+      { name: "Edit Sift" },
+    ];
+  } else if (pathname.startsWith("/sifts/")) {
+    breadcrumb = [
+      { name: "Dashboard", href: "/dashboard" },
+      { name: "Sifts", href: "/sifts" },
+      { name: "Sift Details" },
     ];
   } else if (pathname === "/newsletters") {
     breadcrumb = [{ name: "Dashboard", href: "/dashboard" }, { name: "Newsletters" }];
