@@ -30,6 +30,14 @@ export function DashboardBreadcrumb() {
       { name: "Sifts", href: "/dashboard/sifts" },
       { name: "Create Sift" },
     ];
+  } else if (pathname === "/newsletters") {
+    breadcrumb = [{ name: "Dashboard", href: "/dashboard" }, { name: "Newsletters" }];
+  } else if (pathname.startsWith("/newsletters/")) {
+    breadcrumb = [
+      { name: "Dashboard", href: "/dashboard" },
+      { name: "Newsletters", href: "/newsletters" },
+      { name: "Newsletter Details" }
+    ];
   } else if (pathname === "/beta") {
     breadcrumb = [{ name: "Dashboard", href: "/dashboard" }, { name: "Beta" }];
   }

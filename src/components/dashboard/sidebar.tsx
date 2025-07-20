@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import Link from "next/link";
 import Image from "next/image";
-import { Home, FileText, Settings, TestTubeDiagonal } from "lucide-react";
+import { Home, FileText, Settings, TestTubeDiagonal, Mail } from "lucide-react";
 import { usePathname } from "next/navigation";
 import logo from "@/components/marketing/logo.png";
 import SidebarLink from "./sidebarLink";
@@ -39,6 +39,13 @@ export function Sidebar() {
             active={pathname === "/sifts"}
           >
             Sifts
+          </SidebarLink>
+          <SidebarLink
+            href="/newsletters"
+            icon={<Mail className="h-5 w-5" />}
+            active={pathname.startsWith("/newsletters")}
+          >
+            Newsletters
           </SidebarLink>
           <SidebarLink
             href="/beta"

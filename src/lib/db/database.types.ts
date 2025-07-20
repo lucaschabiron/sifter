@@ -74,6 +74,149 @@ export type Database = {
         };
         Relationships: [];
       };
+      newsletters: {
+        Row: {
+          id: number;
+          user_id: string;
+          sift_id: number;
+          title: string;
+          content_markdown: string;
+          article_count: number;
+          sent_at: string | null;
+          delivery_status: 'pending' | 'sent' | 'failed';
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: number;
+          user_id: string;
+          sift_id: number;
+          title: string;
+          content_markdown: string;
+          article_count?: number;
+          sent_at?: string | null;
+          delivery_status?: 'pending' | 'sent' | 'failed';
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: number;
+          user_id?: string;
+          sift_id?: number;
+          title?: string;
+          content_markdown?: string;
+          article_count?: number;
+          sent_at?: string | null;
+          delivery_status?: 'pending' | 'sent' | 'failed';
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "newsletters_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "newsletters_sift_id_fkey";
+            columns: ["sift_id"];
+            isOneToOne: false;
+            referencedRelation: "sifts";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      newsletter_articles: {
+        Row: {
+          id: number;
+          newsletter_id: number;
+          title: string;
+          url: string;
+          summary: string | null;
+          virality_score: number;
+          published_at: string | null;
+          source_domain: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          newsletter_id: number;
+          title: string;
+          url: string;
+          summary?: string | null;
+          virality_score?: number;
+          published_at?: string | null;
+          source_domain?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          newsletter_id?: number;
+          title?: string;
+          url?: string;
+          summary?: string | null;
+          virality_score?: number;
+          published_at?: string | null;
+          source_domain?: string | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_articles_newsletter_id_fkey";
+            columns: ["newsletter_id"];
+            isOneToOne: false;
+            referencedRelation: "newsletters";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      newsletter_feedback: {
+        Row: {
+          id: number;
+          newsletter_id: number;
+          user_id: string;
+          rating: number | null;
+          liked_articles: number[];
+          disliked_articles: number[];
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          newsletter_id: number;
+          user_id: string;
+          rating?: number | null;
+          liked_articles?: number[];
+          disliked_articles?: number[];
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          newsletter_id?: number;
+          user_id?: string;
+          rating?: number | null;
+          liked_articles?: number[];
+          disliked_articles?: number[];
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_feedback_newsletter_id_fkey";
+            columns: ["newsletter_id"];
+            isOneToOne: false;
+            referencedRelation: "newsletters";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "newsletter_feedback_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       waitlist: {
         Row: {
           beta_access: boolean;
