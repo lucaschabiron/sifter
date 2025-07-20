@@ -47,6 +47,7 @@ export type Database = {
           usual_sources: string;
           frequency: 'daily' | 'weekly' | 'monthly';
           content_preference: 'summaries' | 'detailed' | 'mixed';
+          active: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -58,6 +59,7 @@ export type Database = {
           usual_sources?: string;
           frequency: 'daily' | 'weekly' | 'monthly';
           content_preference: 'summaries' | 'detailed' | 'mixed';
+          active?: boolean;
           created_at?: string;
           updated_at?: string;
         };
@@ -69,6 +71,7 @@ export type Database = {
           usual_sources?: string;
           frequency?: 'daily' | 'weekly' | 'monthly';
           content_preference?: 'summaries' | 'detailed' | 'mixed';
+          active?: boolean;
           created_at?: string;
           updated_at?: string;
         };

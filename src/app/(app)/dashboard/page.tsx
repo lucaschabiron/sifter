@@ -1,60 +1,42 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
-import Image from "next/image";
-import Countdown from "@/components/dashboard/countdown";
-import { FeedbackForm } from "@/components/dashboard/feedbackForm";
-import placeholder from "@/components/placeholder.png";
+import { createClient } from "@/lib/db/server";
+import { getUserSifts, getSiftStats } from "@/lib/db/sifts";
+import { getUserNewsletters, getNewsletterStats } from "@/lib/db/newsletters";
+import { DashboardOverview } from "@/components/dashboard/dashboardOverview";
 
 export default async function DashboardPage() {
-  const nextIssue = { siftName: "AI/ML Sift", siftURL: "/sifts/1" };
-  const nextIssueDate = new Date("2024-05-15");
-  const nextIssueString = nextIssueDate.toISOString();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return <div>Please log in to view your dashboard.</div>;
+  }
+
+  const [sifts, newsletters, siftStats, newsletterStats] = await Promise.all([
+    getUserSifts(),
+    getUserNewsletters(user.id),
+    getSiftStats(),
+    getNewsletterStats()
+  ]);
+
   return (
-    <>
-      <h1 className="hidden text-2xl font-semibold p-4 md:px-6 md:block">
-        Dashboard
-      </h1>
-      <main className="grid grid-cols-2 md:grid-cols-3 grid-rows-1 items-start gap-4 p-4 md:px-6 md:py-0 md:gap-8">
-        <Card className="col-span-2 md:col-span-1 shadow-sm">
-          <CardHeader>
-            <CardTitle>Latest Issue</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Link href="/issues/1">
-              <div className="flex justify-center aspect-auto">
-                <Image
-                  src={placeholder}
-                  alt="Your latest issue"
-                  className="rounded-lg"
-                />
-              </div>
-            </Link>
-          </CardContent>
-        </Card>
-        <div className="col-span-2 flex flex-col gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                Next Issue{" "}
-                <span className="underline">
-                  <Link href={nextIssue.siftURL}>({nextIssue.siftName})</Link>
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              <Countdown targetDate={nextIssueString} />
-            </CardContent>
-          </Card>
-          <Card className="col-span-2">
-            <CardHeader>
-              <CardTitle>Feedback</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <FeedbackForm />
-            </CardContent>
-          </Card>
+    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+      <div className="flex flex-col gap-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back! Here&apos;s an overview of your sifts and newsletters.
+          </p>
         </div>
-      </main>
-    </>
+
+        <DashboardOverview 
+          sifts={sifts}
+          newsletters={newsletters}
+          siftStats={siftStats}
+          newsletterStats={newsletterStats}
+        />
+      </div>
+    </main>
   );
 }
