@@ -14,52 +14,48 @@ export async function createSift(
     return { error: "You must be signed in to create a sift." };
   }
 
+  const backendUrl = process.env.BACKEND_URL;
+  if (!backendUrl) {
+    return { error: "Backend is not configured." };
+  }
+
   try {
-    // Try backend API first if available
-    const backendUrl = process.env.BACKEND_URL;
-    if (backendUrl) {
-      const token = (await supabase.auth.getSession()).data?.session?.access_token;
-      const res = await fetch(`${backendUrl}/api/sifts/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title: formData.title,
-          topic: formData.topic,
-          usualSources: formData.usualSources,
-          frequency: formData.frequency,
-          contentPreference: formData.contentPreference,
-          active: formData.active ?? true,
-        }),
-      });
-      
-      if (res.ok) {
-        redirect("/sifts");
-        return {};
-      }
+    const token = (await supabase.auth.getSession()).data?.session?.access_token;
+
+    if (!token) {
+      return { error: "Authentication token missing." };
     }
 
-    // Fallback to direct Supabase creation
-    const { error } = await supabase
-      .from('sifts')
-      .insert({
-        user_id: user.id,
+    const res = await fetch(`${backendUrl}/api/sifts/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
         title: formData.title,
         topic: formData.topic,
-        usual_sources: formData.usualSources,
+        usualSources: formData.usualSources,
         frequency: formData.frequency,
-        content_preference: formData.contentPreference,
+        contentPreference: formData.contentPreference,
         active: formData.active ?? true,
-      });
+      }),
+    });
 
-    if (error) {
-      return { error: "Failed to create sift." };
+    if (!res.ok) {
+      let errorMessage = "Failed to create sift.";
+      try {
+        const data = await res.json();
+        errorMessage = data?.error ?? data?.message ?? errorMessage;
+      } catch {
+        // ignore json parse errors
+      }
+      return { error: errorMessage };
     }
 
     redirect("/sifts");
-  } catch {
+  } catch (error) {
+    console.error("Failed to create sift:", error);
     return { error: "Failed to create sift." };
   }
 }

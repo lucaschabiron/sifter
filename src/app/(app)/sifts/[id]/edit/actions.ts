@@ -15,52 +15,42 @@ export async function updateSift(
     return { error: "You must be signed in to update a sift." };
   }
 
-  try {
-    // Update via backend API if available, otherwise update directly in Supabase
-    const backendUrl = process.env.BACKEND_URL;
-    
-    if (backendUrl) {
-      const res = await fetch(`${backendUrl}/api/sifts/${siftId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title: formData.title,
-          topic: formData.topic,
-          usualSources: formData.usualSources,
-          frequency: formData.frequency,
-          contentPreference: formData.contentPreference,
-          active: formData.active,
-        }),
-      });
-      
-      if (!res.ok) {
-        return { error: "Failed to update sift." };
-      }
-    } else {
-      // Fallback to direct Supabase update
-      const { error } = await supabase
-        .from('sifts')
-        .update({
-          title: formData.title,
-          topic: formData.topic,
-          usual_sources: formData.usualSources,
-          frequency: formData.frequency,
-          content_preference: formData.contentPreference,
-          active: formData.active,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', parseInt(siftId));
+  const backendUrl = process.env.BACKEND_URL;
+  if (!backendUrl) {
+    return { error: "Backend is not configured." };
+  }
 
-      if (error) {
-        return { error: "Failed to update sift." };
+  try {
+    const res = await fetch(`${backendUrl}/api/sifts/${siftId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title: formData.title,
+        topic: formData.topic,
+        usualSources: formData.usualSources,
+        frequency: formData.frequency,
+        contentPreference: formData.contentPreference,
+        active: formData.active,
+      }),
+    });
+
+    if (!res.ok) {
+      let errorMessage = "Failed to update sift.";
+      try {
+        const data = await res.json();
+        errorMessage = data?.error ?? data?.message ?? errorMessage;
+      } catch {
+        // ignore parsing errors
       }
+      return { error: errorMessage };
     }
 
     redirect(`/sifts/${siftId}`);
-  } catch {
+  } catch (error) {
+    console.error("Failed to update sift:", error);
     return { error: "Failed to update sift." };
   }
 }

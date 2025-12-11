@@ -1,84 +1,97 @@
 import { createClient } from "./server";
 import type { Database } from "./database.types";
 
-export type Sift = Database['public']['Tables']['sifts']['Row'];
+export type Sift = Database["public"]["Tables"]["sifts"]["Row"];
+
+const BACKEND_URL = process.env.BACKEND_URL;
+
+async function getSessionToken(): Promise<string | null> {
+  const supabase = await createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return session?.access_token ?? null;
+}
 
 export async function getUserSifts(): Promise<Sift[]> {
-  const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    return [];
+  if (!BACKEND_URL) {
+    throw new Error("BACKEND_URL is not configured.");
   }
-  
-  const { data: sifts, error } = await supabase
-    .from('sifts')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Error fetching sifts:', error);
+  const token = await getSessionToken();
+  if (!token) {
     return [];
   }
 
-  return sifts || [];
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/sifts`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("Error fetching sifts:", response.statusText);
+      return [];
+    }
+
+    const data = (await response.json()) as unknown;
+    if (Array.isArray(data)) {
+      return data as Sift[];
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Error fetching sifts:", error);
+    return [];
+  }
 }
 
 export async function getSiftById(id: string): Promise<Sift | null> {
-  const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    return null;
+  if (!BACKEND_URL) {
+    throw new Error("BACKEND_URL is not configured.");
   }
-  
-  const { data: sift, error } = await supabase
-    .from('sifts')
-    .select('*')
-    .eq('id', parseInt(id))
-    .eq('user_id', user.id)
-    .single();
 
-  if (error) {
-    console.error('Error fetching sift:', error);
+  const token = await getSessionToken();
+  if (!token) {
     return null;
   }
 
-  return sift;
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/sifts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    if (response.status === 404) {
+      return null;
+    }
+
+    if (!response.ok) {
+      console.error("Error fetching sift:", response.statusText);
+      return null;
+    }
+
+    return (await response.json()) as Sift;
+  } catch (error) {
+    console.error("Error fetching sift:", error);
+    return null;
+  }
 }
 
-export async function getSiftStats() {
-  const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    return { total: 0, active: 0, thisMonth: 0 };
-  }
-  
-  const { data: sifts, error } = await supabase
-    .from('sifts')
-    .select('id, created_at, active')
-    .eq('user_id', user.id);
-
-  if (error) {
-    console.error('Error fetching sift stats:', error);
-    return { total: 0, active: 0, thisMonth: 0 };
-  }
-
+export function calculateSiftStats(sifts: Sift[]) {
   const now = new Date();
   const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-  const stats = {
-    total: sifts?.length || 0,
-    active: sifts?.filter(sift => sift.active !== false).length || 0,
-    thisMonth: sifts?.filter(sift => 
-      sift.created_at && new Date(sift.created_at) >= oneMonthAgo
-    ).length || 0
+  return {
+    total: sifts.length,
+    active: sifts.filter((sift) => sift.active !== false).length,
+    thisMonth: sifts.filter(
+      (sift) => sift.created_at && new Date(sift.created_at) >= oneMonthAgo
+    ).length,
   };
-
-  return stats;
 }

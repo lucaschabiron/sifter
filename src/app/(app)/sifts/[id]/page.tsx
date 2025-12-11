@@ -7,6 +7,7 @@ import { Pencil, Settings, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { notFound } from "next/navigation";
+import { DeleteSiftButton } from "@/components/dashboard/deleteSiftButton";
 
 interface SiftPageProps {
   params: Promise<{
@@ -186,7 +187,7 @@ export default async function SiftPage({ params }: SiftPageProps) {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               <Link href={`/sifts/${sift.id}/edit`}>
                 <Button variant="outline">
                   <Pencil className="mr-2 h-4 w-4" />
@@ -199,6 +200,7 @@ export default async function SiftPage({ params }: SiftPageProps) {
               <Button variant="outline" disabled>
                 View History
               </Button>
+              <DeleteSiftButton siftId={sift.id.toString()} />
             </div>
           </CardContent>
         </Card>

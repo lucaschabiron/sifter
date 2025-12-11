@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/db/server";
-import { getUserSifts, getSiftStats } from "@/lib/db/sifts";
+import { getUserSifts, calculateSiftStats } from "@/lib/db/sifts";
 import { getUserNewsletters, getNewsletterStats } from "@/lib/db/newsletters";
 import { DashboardOverview } from "@/components/dashboard/dashboardOverview";
 
@@ -13,12 +13,13 @@ export default async function DashboardPage() {
     return <div>Please log in to view your dashboard.</div>;
   }
 
-  const [sifts, newsletters, siftStats, newsletterStats] = await Promise.all([
+  const [sifts, newsletters, newsletterStats] = await Promise.all([
     getUserSifts(),
     getUserNewsletters(user.id),
-    getSiftStats(),
     getNewsletterStats()
   ]);
+
+  const siftStats = calculateSiftStats(sifts);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">

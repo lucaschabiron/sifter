@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/db/server";
-import { getUserSifts, getSiftStats } from "@/lib/db/sifts";
+import { getUserSifts, calculateSiftStats } from "@/lib/db/sifts";
 import { SiftsTable } from "@/components/dashboard/siftsTable";
 import { SiftStats } from "@/components/dashboard/siftStats";
 import { Button } from "@/components/ui/button";
@@ -16,10 +16,8 @@ export default async function SiftsPage() {
     return <div>Please log in to view your sifts.</div>;
   }
 
-  const [sifts, stats] = await Promise.all([
-    getUserSifts(),
-    getSiftStats()
-  ]);
+  const sifts = await getUserSifts();
+  const stats = calculateSiftStats(sifts);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
